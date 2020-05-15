@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Mob.gd" type="Script" id=2]
+
+[sub_resource type="SphereShape" id=1]
+
+[node name="Mob" type="KinematicBody"]
+transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0 )
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Visibility" type="VisibilityNotifier" parent="."]
+[connection signal="screen_exited" from="Visibility" to="." method="_on_Visibility_screen_exited"]

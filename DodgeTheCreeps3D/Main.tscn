@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://Mob.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sound/gameover.wav" type="AudioStream" id=5]
+[ext_resource path="res://sound/House In a Forest Loop.ogg" type="AudioStream" id=6]
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="Main" type="Spatial"]
+script = ExtResource( 2 )
+mob_scene = ExtResource( 3 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15.4808 )
+projection = 1
+current = true
+size = 20.0
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.7
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0 )
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Walls" type="Spatial" parent="."]
+
+[node name="LeftWall" type="StaticBody" parent="Walls"]
+transform = Transform( 0.5, 0, 0, 0, 11, 0, 0, 0, 1, -7.25, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/LeftWall"]
+shape = SubResource( 1 )
+
+[node name="TopWall" type="StaticBody" parent="Walls"]
+transform = Transform( 7.75, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 10.5, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/TopWall"]
+shape = SubResource( 1 )
+
+[node name="RightWall" type="StaticBody" parent="Walls"]
+transform = Transform( 0.5, 0, 0, 0, 11, 0, 0, 0, 1, 7.25, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/RightWall"]
+shape = SubResource( 1 )
+
+[node name="BottomWall" type="StaticBody" parent="Walls"]
+transform = Transform( 7.75, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, -10.5, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/BottomWall"]
+shape = SubResource( 1 )
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.850472, -0.526021, 1.20145e-08, 0.376521, 0.608759, 0.698315, -0.367329, -0.593897, 0.71579, -1.85473, 8.66058, 3.64796 )
+
+[node name="InterpolatedCamera" type="InterpolatedCamera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75184, 18.4252 )
+visible = false
+fov = 50.0
+[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
