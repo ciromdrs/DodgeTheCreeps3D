@@ -10,5 +10,5 @@ Just click <a href="https://ciromdrs.itch.io/dodge-the-creeps-3d">here<a>!
   <li>Clone this repository</li>
   <li>Open Godot</li>
   <li>Import <code>DodgeTheCreeps3D/DodgeTheCreeps3D/project.godot</code> file</li>
-  <li>Click Play!<li>
+  <li>Click Play!</li>
 </ol>
